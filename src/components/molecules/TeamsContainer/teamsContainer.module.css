@@ -1,0 +1,7 @@
+.itemPlayer{
+  @apply w-full bg-ia-brown-light rounded-sm h-12 p-2 my-1 mx-1;
+}
+
+.itemPlayer span{
+  @apply text-ia-purple-dark text-xl;
+}
