@@ -1,4 +1,5 @@
-import styles from './header.module.css'
+import styles from "./style.module.css";
+
 function Header(){
   return(
     <div className={`bg-ia-purple-light h-24 w-full`}>

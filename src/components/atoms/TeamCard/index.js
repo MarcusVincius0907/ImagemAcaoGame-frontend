@@ -1,4 +1,5 @@
-import styles from './teamCard.module.css'
+import styles from "./style.module.css";
+
 function TeamCard(){
   return(
     <div className="w-full max-w-card bg-ia-brown-dark rounded-md min-h-[250px]">
