@@ -1,97 +1,135 @@
+//import ReactCountdownClock from "react-countdown-clock";
 
-function Clock(){
+function Clock() {
+  const FULL_DASH_ARRAY = 283;
+  const WARNING_THRESHOLD = 10;
+  const ALERT_THRESHOLD = 5;
 
+  const COLOR_CODES = {
+    info: {
+      color: "green",
+    },
+    warning: {
+      color: "orange",
+      threshold: WARNING_THRESHOLD,
+    },
+    alert: {
+      color: "red",
+      threshold: ALERT_THRESHOLD,
+    },
+  };
+
+  const TIME_LIMIT = 20;
+  let timePassed = 0;
+  let timeLeft = TIME_LIMIT;
+  let timerInterval = null;
+  let remainingPathColor = COLOR_CODES.info.color;
+
+  function App() {
+    return (
+      <>
+        <div className="base-timer">
+          <svg
+            className="base-timer__svg"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g className="base-timer__circle">
+              <circle
+                className="base-timer__path-elapsed"
+                cx="50"
+                cy="50"
+                r="45"
+              ></circle>
+              <path
+                id="base-timer-path-remaining"
+                strokeDasharray="283"
+                className="base-timer__path-remaining ${remainingPathColor}"
+                d="
+          M 50, 50
+          m -45, 0
+          a 45,45 0 1,0 90,0
+          a 45,45 0 1,0 -90,0
+        "
+              ></path>
+            </g>
+          </svg>
+          <span id="base-timer-label" className="base-timer__label">
+            ${formatTime(timeLeft)}
+          </span>
+        </div>
+      </>
+    );
+  }
+
+  function onTimesUp() {
+    clearInterval(timerInterval);
+  }
+
+  function pause(){
+    onTimesUp()
+  }
+
+  function startTimer() {
+    timerInterval = setInterval(() => {
+      timePassed = timePassed += 1;
+      timeLeft = TIME_LIMIT - timePassed;
+      document.getElementById("base-timer-label").innerHTML =
+        formatTime(timeLeft);
+      setCircleDasharray();
+
+      if (timeLeft === 0) {
+        onTimesUp();
+      }
+    }, 1000);
+  }
+
+  function formatTime(time) {
+    const minutes = Math.floor(time / 60);
+    let seconds = time % 60;
+
+    if (seconds < 10) {
+      seconds = `0${seconds}`;
+    }
+
+    return `${minutes}:${seconds}`;
+  }
+
+
+
+  function calculateTimeFraction() {
+    const rawTimeFraction = timeLeft / TIME_LIMIT;
+    return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
+  }
+
+  function setCircleDasharray() {
+    const circleDasharray = `${(
+      calculateTimeFraction() * FULL_DASH_ARRAY
+    ).toFixed(0)} 283`;
+    document
+      .getElementById("base-timer-path-remaining")
+      .setAttribute("stroke-dasharray", circleDasharray);
+  }
+
+  startTimer();
+  setTimeout(() => {
+    pause()
+  }, 3000);
   
 
-  return(
+  return (
     <div className="w-full flex  flex-col  bg-ia-purple-med p-3 rounded-md h-full">
       <div className="text-white text-md ">O tempo está rolando</div>
-      <div className="mt-5">
-        {/* <canvas id="canvas" width="400" height="400"
-          style="background-color:#333">
-        </canvas> */}
+      <div className="mt-5 flex justify-center ">
+       
+        <div id="app">
+          <App></App>
+        </div>
       </div>
     </div>
-  )
-}/* 
-let canvas = document.getElementById("canvas");
-  let ctx = canvas.getContext("2d");
-  let radius = canvas.height / 2;
-  ctx.translate(radius, radius);
-  radius = radius * 0.90
-  setInterval(drawClock, 1000);
-
-function drawClock() {
-  drawFace(ctx, radius);
-  drawNumbers(ctx, radius);
-  drawTime(ctx, radius);
+  );
 }
 
-function drawFace(ctx, radius) {
-  var grad;
-  ctx.beginPath();
-  ctx.arc(0, 0, radius, 0, 2*Math.PI);
-  ctx.fillStyle = 'white';
-  ctx.fill();
-  grad = ctx.createRadialGradient(0,0,radius*0.95, 0,0,radius*1.05);
-  grad.addColorStop(0, '#333');
-  grad.addColorStop(0.5, 'white');
-  grad.addColorStop(1, '#333');
-  ctx.strokeStyle = grad;
-  ctx.lineWidth = radius*0.1;
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.arc(0, 0, radius*0.1, 0, 2*Math.PI);
-  ctx.fillStyle = '#333';
-  ctx.fill();
-}
+// Credit: Mateusz Rybczonec
 
-function drawNumbers(ctx, radius) {
-  var ang;
-  var num;
-  ctx.font = radius*0.15 + "px arial";
-  ctx.textBaseline="middle";
-  ctx.textAlign="center";
-  for(num = 1; num < 13; num++){
-    ang = num * Math.PI / 6;
-    ctx.rotate(ang);
-    ctx.translate(0, -radius*0.85);
-    ctx.rotate(-ang);
-    ctx.fillText(num.toString(), 0, 0);
-    ctx.rotate(ang);
-    ctx.translate(0, radius*0.85);
-    ctx.rotate(-ang);
-  }
-}
-
-function drawTime(ctx, radius){
-    var now = new Date();
-    var hour = now.getHours();
-    var minute = now.getMinutes();
-    var second = now.getSeconds();
-    //hour
-    hour=hour%12;
-    hour=(hour*Math.PI/6)+
-    (minute*Math.PI/(6*60))+
-    (second*Math.PI/(360*60));
-    drawHand(ctx, hour, radius*0.5, radius*0.07);
-    //minute
-    minute=(minute*Math.PI/30)+(second*Math.PI/(30*60));
-    drawHand(ctx, minute, radius*0.8, radius*0.07);
-    // second
-    second=(second*Math.PI/30);
-    drawHand(ctx, second, radius*0.9, radius*0.02);
-}
-
-function drawHand(ctx, pos, length, width) {
-    ctx.beginPath();
-    ctx.lineWidth = width;
-    ctx.lineCap = "round";
-    ctx.moveTo(0,0);
-    ctx.rotate(pos);
-    ctx.lineTo(0, -length);
-    ctx.stroke();
-    ctx.rotate(-pos);
-}
- */
 export default Clock;
