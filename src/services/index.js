@@ -16,4 +16,8 @@ export default class Service {
   async getTeams(){
     return this.api.get('/team');
   }
+
+  async getScoreboard(){
+    return this.api.get('/scoreboard');
+  }
 }

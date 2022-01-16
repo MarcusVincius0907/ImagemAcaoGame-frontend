@@ -10,6 +10,7 @@ function TeamsContainer(){
   /* init */
   useEffect(() => {
     getTeams()
+    
   },[]);
 
   /* changes */
@@ -27,12 +28,15 @@ function TeamsContainer(){
       console.log(e);
     }
   }
+
+
+
   return(
     <div className="flex flex-wrap sm:flex-nowrap mt-10 max-w-container w-full m-auto px-12">
-      <TeamCard team={teams[0]}></TeamCard>
+      <TeamCard team={teams[0]} ></TeamCard>
       <div className="hidden sm:block  h-full min-h-[250px] w-6 bg-ia-purple-light mx-6 rounded-md"></div>
       <div className="mt-5 sm:mt-0 w-full">
-        <TeamCard team={teams[1]}></TeamCard>
+        <TeamCard team={teams[1]} ></TeamCard>
       </div>
     </div>
   )
