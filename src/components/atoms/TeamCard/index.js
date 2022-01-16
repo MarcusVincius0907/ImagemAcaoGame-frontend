@@ -1,25 +1,31 @@
 import styles from "./style.module.css";
+import { useState, useEffect } from 'react';
+import Service from "../../../services";
 
-function TeamCard(){
+function TeamCard(props){
+
+ useEffect(() => {
+   console.log('props', props);
+  
+ },)
+
+
+
   return(
     <div className="w-full max-w-card bg-ia-brown-dark rounded-md min-h-[250px]">
 
       <div className="w-full bg-ia-purple-light p-2 rounded-t-md">
-        <h1 className=" text-white text-3xl">TIME A</h1>
+        <h1 className=" text-white text-3xl">{props.team.name}</h1>
       </div>
 
       <div className="flex p-3 text-ia-purple-dark">
         <div className="w-1/2 ">
-          {/* players */}
-          <div className={`${styles.itemPlayer}`}>
-            <span>Joao</span>
-          </div>
-          <div className={`${styles.itemPlayer}`}>
-            <span>Joao</span>
-          </div>
-          <div className={`${styles.itemPlayer}`}>
-            <span>Joao</span>
-          </div>
+          {props.team.players.map((v,index) =>
+            <div key={index} className={`${styles.itemPlayer}`}>
+              <span>{v.name}</span>
+            </div>
+          )}
+          
         </div>
         <div className="w-1/2 pl-5">
           {/* score */}

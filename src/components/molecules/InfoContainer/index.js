@@ -1,6 +1,6 @@
 import Round from '../../atoms/Round'
 import WordsDisplay from '../../atoms/WordsDisplay';
-import Clock from '../../atoms/Clock';
+import Clock from '../../atoms/Clock/index.js';
 
 function InfoContainer() {
   return (
