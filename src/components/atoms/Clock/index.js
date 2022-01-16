@@ -46,11 +46,11 @@ function Clock() {
                 strokeDasharray="283"
                 className="base-timer__path-remaining ${remainingPathColor}"
                 d="
-          M 50, 50
-          m -45, 0
-          a 45,45 0 1,0 90,0
-          a 45,45 0 1,0 -90,0
-        "
+                  M 50, 50
+                  m -45, 0
+                  a 45,45 0 1,0 90,0
+                  a 45,45 0 1,0 -90,0
+                "
               ></path>
             </g>
           </svg>
