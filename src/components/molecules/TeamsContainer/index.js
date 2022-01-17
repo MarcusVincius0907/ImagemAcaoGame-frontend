@@ -15,13 +15,11 @@ function TeamsContainer(){
 
   /* changes */
   useEffect(() => {
-    console.log(teams);
   });
 
   async function getTeams(){
     try{
       const resp = await service.getTeams()
-      console.log('resp', resp);
       setTeams(resp.data.payload)
      
     }catch(e){

@@ -1,6 +1,10 @@
 //import ReactCountdownClock from "react-countdown-clock";
+import { useState, useEffect } from 'react';
 
-function Clock() {
+function Clock(props) {
+  useEffect(() => {
+    console.log('clockreset');
+  },[props.resetClock]);
   const FULL_DASH_ARRAY = 283;
   const WARNING_THRESHOLD = 10;
   const ALERT_THRESHOLD = 5;

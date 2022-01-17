@@ -20,4 +20,8 @@ export default class Service {
   async getScoreboard(){
     return this.api.get('/scoreboard');
   }
+
+  async getWords(){
+    return this.api.get('/words');
+  }
 }

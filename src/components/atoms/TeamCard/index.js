@@ -5,9 +5,8 @@ import Service from "../../../services";
 function TeamCard(props){
 
  useEffect(() => {
-   console.log('props', props);
   
- },)
+ })
 
 
 
