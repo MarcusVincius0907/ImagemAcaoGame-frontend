@@ -8,7 +8,10 @@ function Clock(props) {
   const [timerStarted, setTimerStarted] = useState(false)
 
   useEffect(() => {
-    console.log('reset timer');
+    timePassed = 0;
+    timeLeft = TIME_LIMIT;
+    timerInterval = null;
+    setTimerStarted(false)
   },[props.resetClock]);
 
   useEffect(() => {
@@ -38,7 +41,7 @@ function Clock(props) {
     },
   };
 
-  const TIME_LIMIT = 60;
+  const TIME_LIMIT = 10;
   let timePassed = 0;
   let timeLeft = TIME_LIMIT;
   let timerInterval = null;
@@ -82,13 +85,18 @@ function Clock(props) {
 
   function onTimesUp() {
     clearInterval(timerInterval);
+    props?.openModalFunc()
   }
 
   function pause(){
-    onTimesUp()
+    clearInterval(timerInterval);
+    setTimerStarted(false)
+    props?.openModalFunc()
+    timeLeft = 0
   }
 
   function startTimer() {
+    console.log('start timer inside');
     setTimerStarted(true)
     timerInterval = setInterval(() => {
       timePassed = timePassed += 1;
@@ -131,18 +139,24 @@ function Clock(props) {
   }
   
   return (
-    <div className="w-full flex  flex-col  bg-ia-purple-med p-3 rounded-md h-full">
+    <div className="w-full flex  flex-col  bg-ia-purple-med p-3 rounded-md h-full animate-fade">
       <div className="text-white text-md ">O tempo está rolando</div>
-      <div className="mt-5 flex justify-center ">
+      <div className="mt-5 grid justify-center w-full ">
        
         <div id="app">
           <App></App>
+        </div>
+
+        <div className="mt-3 grid justify-center w-full ">
+          <button disabled={!timerStarted} onClick={() => {
+            pause()
+            
+          }} className=" text-white border-0 flex justify-center items-center p-3 bg-ia-purple-dark rounded-sm hover:opacity-50">PRONTO!</button>
         </div>
       </div>
     </div>
   );
 }
 
-// Credit: Mateusz Rybczonec
 
 export default Clock;

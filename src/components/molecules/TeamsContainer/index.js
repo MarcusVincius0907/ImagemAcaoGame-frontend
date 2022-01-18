@@ -2,6 +2,7 @@ import styles from "./style.module.css";
 import TeamCard from '../../atoms/TeamCard';
 import Service from "../../../services";
 import { useState, useEffect } from 'react';
+import { eventEmitter } from '../../../services/eventEmitter'
 
 function TeamsContainer(){
   const [teams, setTeams] = useState([]);
@@ -10,11 +11,16 @@ function TeamsContainer(){
   /* init */
   useEffect(() => {
     getTeams()
+    eventEmitter.subscribe("refreshTeams", (e) => {
+      getTeams()
+    })
     
   },[]);
 
   /* changes */
   useEffect(() => {
+    
+    
   });
 
   async function getTeams(){

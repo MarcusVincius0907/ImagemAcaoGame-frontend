@@ -3,6 +3,8 @@ import WordsDisplay from '../../atoms/WordsDisplay';
 import Clock from '../../atoms/Clock/index.js';
 import Service from '../../../services';
 import { useState, useEffect } from 'react';
+import ModalCustom from '../Modal';
+import { eventEmitter } from '../../../services/eventEmitter';
 
 function InfoContainer() {
 
@@ -10,6 +12,8 @@ function InfoContainer() {
   const [turn, setTurn] = useState(null);
   const [resetClock, setResetClock] = useState(false);
   const [startClock, setstartClock] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [scoreSelected, setScoreSelected] = useState(0);
   const service = new Service()
 
   /* init */
@@ -47,8 +51,39 @@ function InfoContainer() {
     getWords()
   }
 
-  const startTimer = () => {
+  const startTimer = (scoreSelectedParam) => {
+    setScoreSelected(scoreSelectedParam.value)
     setstartClock(true)
+  }
+
+  const result = (param) => {
+    setOpenModal(false)
+    nextRound(param)
+  }
+
+  const openModalFunc = (param) => {
+    setOpenModal(true)
+  }
+
+  const nextRound = async(rightAswerFlag) => {
+
+    try{
+      let resp;
+      if(rightAswerFlag){
+        resp = await service.nextRound({score: scoreSelected })
+      }else{
+        resp = await service.nextRound({score: 0 })
+      }
+      setWords([]);
+      getTurn();
+      eventEmitter.dispatch("refreshTeams")
+      setResetClock(!resetClock)
+      setstartClock(false);
+      console.log('resp next', resp);
+    }catch(e){
+      console.log(e);
+    }
+
   }
 
   return (
@@ -60,10 +95,12 @@ function InfoContainer() {
         <div className="max-w-card mb-5 sm:mb-0 w-full sm:mr-5 sm:w-1/3">
           <WordsDisplay words={words} startTimer={startTimer}></WordsDisplay>
         </div>
-        <div className="max-w-card w-full  sm:w-1/3">
-          <Clock resetClock={resetClock} startClock={startClock}></Clock>
+        <div className="max-w-card w-full    sm:w-1/3">
+          <Clock resetClock={resetClock} startClock={startClock} openModalFunc={openModalFunc}></Clock>
         </div>
       </div>
+      <button onClick={() => setOpenModal(true)}>click</button>
+      <ModalCustom openModal={openModal} result={result}></ModalCustom>
     </div>
   );
 }

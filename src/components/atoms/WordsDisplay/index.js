@@ -32,7 +32,7 @@ function WordsDisplay(props) {
     list[index].selected = true;
     setFormatedList(list)
 
-    props.startTimer()
+    props.startTimer(list[index])
     
   }
 
@@ -40,7 +40,6 @@ function WordsDisplay(props) {
   return (
     
     <div className="w-full flex  flex-col  bg-ia-purple-med p-3 rounded-md h-full">
-      { console.log('rendered')}
       <div className="text-white opacity-50 text-sm">
         Clique para selecionar (você só pode selecionar uma palavra).
       </div>

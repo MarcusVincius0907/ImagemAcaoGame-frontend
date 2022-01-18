@@ -8,10 +8,13 @@ function TeamCard(props){
   
  })
 
+ const checkPlayerTurn = (idPlayer, idTeam) => {
+  return props?.team?.currentPlayer?.id === idPlayer && props?.team?.isTurn
+ }
 
 
   return(
-    <div className="w-full max-w-card bg-ia-brown-dark rounded-md min-h-[250px]">
+    <div className={[ props?.team?.isTurn? "  border-4 border-white " : "  " , " w-full max-w-card bg-ia-brown-dark rounded-md min-h-[250px]"]}>
 
       <div className="w-full bg-ia-purple-light p-2 rounded-t-md">
         <h1 className=" text-white text-3xl">{props?.team?.name}</h1>
@@ -20,8 +23,8 @@ function TeamCard(props){
       <div className="flex p-3 text-ia-purple-dark">
         <div className="w-1/2 ">
           {props?.team?.players.map((v,index) =>
-            <div key={index} className={`${styles.itemPlayer}`}>
-              <span>{v.name}</span>
+            <div key={index} className={[checkPlayerTurn(v.id, v.teamId)? " border-2 border-ia-purple-dark " : "  "  ,` ${styles.itemPlayer} `]}>
+              <span className={checkPlayerTurn(v.id, v.teamId)? " font-bold " : "  " }>{v.name}</span>
             </div>
           )}
           
