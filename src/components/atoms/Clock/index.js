@@ -2,49 +2,45 @@
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay } from '@fortawesome/free-solid-svg-icons'
+import { eventEmitter } from '../../../services/eventEmitter';
 
 function Clock(props) {
 
+  const TIME_LIMIT = 10;
+  let timePassed = 0;
+  let timeLeft = TIME_LIMIT;
+  let timerInterval = null;
+  const FULL_DASH_ARRAY = 283;
+
+
   const [timerStarted, setTimerStarted] = useState(false)
+  const [count, setCount] = useState(formatTime(timeLeft))
+  const [interval, setIntervalCustom] = useState(null)
 
   useEffect(() => {
     timePassed = 0;
     timeLeft = TIME_LIMIT;
     timerInterval = null;
     setTimerStarted(false)
+    setCount(formatTime(TIME_LIMIT))
+    
   },[props.resetClock]);
 
   useEffect(() => {
-
+    
     if(props.startClock){
       startTimer()
-      console.log('start timer');
     }
 
   },[props.startClock]);
 
-  const FULL_DASH_ARRAY = 283;
-  const WARNING_THRESHOLD = 10;
-  const ALERT_THRESHOLD = 5;
-
-  const COLOR_CODES = {
-    info: {
-      color: "green",
-    },
-    warning: {
-      color: "orange",
-      threshold: WARNING_THRESHOLD,
-    },
-    alert: {
-      color: "red",
-      threshold: ALERT_THRESHOLD,
-    },
-  };
-
-  const TIME_LIMIT = 10;
-  let timePassed = 0;
-  let timeLeft = TIME_LIMIT;
-  let timerInterval = null;
+  useEffect(() => {
+    eventEmitter.subscribe("enterPress", () => {
+      if(timerStarted)
+        pause()
+    })
+  })
+  
 
   function App() {
     return (
@@ -76,39 +72,40 @@ function Clock(props) {
             </g>
           </svg>
           <span id="base-timer-label" className="base-timer__label">
-            {timerStarted? formatTime(timeLeft) : <FontAwesomeIcon icon={faPlay} />}
+            {timerStarted? count : <FontAwesomeIcon icon={faPlay} />}
+            
           </span>
         </div>
       </>
     );
   }
 
-  function onTimesUp() {
-    clearInterval(timerInterval);
-    props?.openModalFunc()
-  }
 
   function pause(){
-    clearInterval(timerInterval);
+    clearInterval(interval);
     setTimerStarted(false)
     props?.openModalFunc()
     timeLeft = 0
   }
 
   function startTimer() {
-    console.log('start timer inside');
     setTimerStarted(true)
-    timerInterval = setInterval(() => {
+    let interval = setInterval(() => {
+
       timePassed = timePassed += 1;
       timeLeft = TIME_LIMIT - timePassed;
-      document.getElementById("base-timer-label").innerHTML =
-        formatTime(timeLeft);
+      setCount(formatTime(timeLeft))
       setCircleDasharray();
-
+      console.log(timeLeft);
       if (timeLeft === 0) {
-        onTimesUp();
+        clearInterval(interval);
+        props?.openModalFunc()
+        setTimerStarted(false)
       }
-    }, 1000);
+    }, 1000)
+
+    setIntervalCustom(interval)
+
   }
 
   function formatTime(time) {
@@ -149,8 +146,7 @@ function Clock(props) {
 
         <div className="mt-3 grid justify-center w-full ">
           <button disabled={!timerStarted} onClick={() => {
-            pause()
-            
+            pause()            
           }} className=" text-white border-0 flex justify-center items-center p-3 bg-ia-purple-dark rounded-sm hover:opacity-50">PRONTO!</button>
         </div>
       </div>

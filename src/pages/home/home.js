@@ -4,6 +4,7 @@ import TeamsContainer from '../../components/molecules/TeamsContainer';
 import InfoContainer from '../../components/molecules/InfoContainer';
 import { useState, useEffect } from 'react';
 import Service from '../../services';
+import { eventEmitter } from '../../services/eventEmitter';
 
 
 function Home() {
@@ -12,6 +13,11 @@ function Home() {
 
   useEffect(() => {
     startRound();
+    window.addEventListener('keydown', (ev) => {
+      if(ev.keyCode === 13){
+        eventEmitter.dispatch("enterPress")
+      }
+    })
   },[]);
 
   async function startRound(){
