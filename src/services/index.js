@@ -9,6 +9,18 @@ export default class Service {
     })
   }
 
+  async startRound(){
+    return this.api.get('/round');
+  }
+
+  async nextRound(score){
+    return this.api.post('/round', score);
+  }
+
+  async getTurn(){
+    return this.api.get('/turn');
+  }
+
   async getPlayers(){
     return this.api.get('/players');
   }

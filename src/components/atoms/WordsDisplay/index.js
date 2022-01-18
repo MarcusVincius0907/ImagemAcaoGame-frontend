@@ -31,6 +31,8 @@ function WordsDisplay(props) {
     let list = [...formatedList]
     list[index].selected = true;
     setFormatedList(list)
+
+    props.startTimer()
     
   }
 
@@ -55,13 +57,12 @@ function WordsDisplay(props) {
 
             {formatedList.map((v,i) =>
             <div key={i}>
-              <div className="flex w-full"   onClick={() => selectWordOnce?  null : selectWord(i)}>
+              <div className={["flex w-full  ", selectWordOnce? ' ' : ' cursor-pointer hover:opacity-50 ']}  onClick={() => selectWordOnce?  null : selectWord(i)}>
                 <div 
                   className=
                   {[
                     `w-1/2 text-ia-purple-dark  text-md p-1 my-1 text-center  ` , 
                     v.selected? ' font-bold bg-white ' : '  bg-ia-brown-light ' ,
-                    selectWordOnce? ' ' : ' cursor-pointer '
                   ]}>
                     {v.word}
                   </div>
@@ -70,7 +71,6 @@ function WordsDisplay(props) {
                   {[
                     `w-1/2 text-ia-purple-dark  text-md p-1 my-1 text-center  ` , 
                     v.selected? ' font-bold bg-white ' : '  bg-ia-brown-light ' ,
-                    selectWordOnce? ' ' : ' cursor-pointer '
                   ]}>
                     {v.value}
                   </div>

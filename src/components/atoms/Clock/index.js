@@ -1,10 +1,25 @@
 //import ReactCountdownClock from "react-countdown-clock";
 import { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlay } from '@fortawesome/free-solid-svg-icons'
 
 function Clock(props) {
+
+  const [timerStarted, setTimerStarted] = useState(false)
+
   useEffect(() => {
-    console.log('clockreset');
+    console.log('reset timer');
   },[props.resetClock]);
+
+  useEffect(() => {
+
+    if(props.startClock){
+      startTimer()
+      console.log('start timer');
+    }
+
+  },[props.startClock]);
+
   const FULL_DASH_ARRAY = 283;
   const WARNING_THRESHOLD = 10;
   const ALERT_THRESHOLD = 5;
@@ -23,11 +38,10 @@ function Clock(props) {
     },
   };
 
-  const TIME_LIMIT = 20;
+  const TIME_LIMIT = 60;
   let timePassed = 0;
   let timeLeft = TIME_LIMIT;
   let timerInterval = null;
-  let remainingPathColor = COLOR_CODES.info.color;
 
   function App() {
     return (
@@ -48,7 +62,7 @@ function Clock(props) {
               <path
                 id="base-timer-path-remaining"
                 strokeDasharray="283"
-                className="base-timer__path-remaining ${remainingPathColor}"
+                className="base-timer__path-remaining "
                 d="
                   M 50, 50
                   m -45, 0
@@ -59,7 +73,7 @@ function Clock(props) {
             </g>
           </svg>
           <span id="base-timer-label" className="base-timer__label">
-            ${formatTime(timeLeft)}
+            {timerStarted? formatTime(timeLeft) : <FontAwesomeIcon icon={faPlay} />}
           </span>
         </div>
       </>
@@ -75,6 +89,7 @@ function Clock(props) {
   }
 
   function startTimer() {
+    setTimerStarted(true)
     timerInterval = setInterval(() => {
       timePassed = timePassed += 1;
       timeLeft = TIME_LIMIT - timePassed;
@@ -114,13 +129,7 @@ function Clock(props) {
       .getElementById("base-timer-path-remaining")
       .setAttribute("stroke-dasharray", circleDasharray);
   }
-
-  startTimer();
-  setTimeout(() => {
-    pause()
-  }, 3000);
   
-
   return (
     <div className="w-full flex  flex-col  bg-ia-purple-med p-3 rounded-md h-full">
       <div className="text-white text-md ">O tempo está rolando</div>
