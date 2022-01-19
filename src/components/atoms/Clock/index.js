@@ -3,14 +3,19 @@ import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay } from '@fortawesome/free-solid-svg-icons'
 import { eventEmitter } from '../../../services/eventEmitter';
+import { activeChild } from '../../../utils/activeChild';
+import sound from '../../../assets/audio/alarm-ringtone-edited.mp3';
+
+
 
 function Clock(props) {
 
-  const TIME_LIMIT = 10;
+  const TIME_LIMIT = 5;
   let timePassed = 0;
   let timeLeft = TIME_LIMIT;
   let timerInterval = null;
   const FULL_DASH_ARRAY = 283;
+  const alarm = new Audio(sound)
 
 
   const [timerStarted, setTimerStarted] = useState(false)
@@ -96,11 +101,11 @@ function Clock(props) {
       timeLeft = TIME_LIMIT - timePassed;
       setCount(formatTime(timeLeft))
       setCircleDasharray();
-      console.log(timeLeft);
       if (timeLeft === 0) {
         clearInterval(interval);
         props?.openModalFunc()
         setTimerStarted(false)
+        alarm.play()
       }
     }, 1000)
 
@@ -134,21 +139,25 @@ function Clock(props) {
       .getElementById("base-timer-path-remaining")
       .setAttribute("stroke-dasharray", circleDasharray);
   }
+
+  
   
   return (
-    <div className="w-full flex  flex-col  bg-ia-purple-med p-3 rounded-md h-full animate-fade">
-      <div className="text-white text-md ">O tempo está rolando</div>
+    <div className={[  props?.active === activeChild.CLOCK ? " border-2 border-white " : "  " , " w-full flex  flex-col  bg-ia-purple-med p-3 rounded-md h-full animate-fade"]}>
+      <div className="text-white text-md ">Cronômetro</div>
       <div className="mt-5 grid justify-center w-full ">
        
         <div id="app">
           <App></App>
         </div>
 
-        <div className="mt-3 grid justify-center w-full ">
-          <button disabled={!timerStarted} onClick={() => {
+        
+      </div>
+      <div className="mt-3 grid justify-center w-full text-white ">
+        <div className="my-1 text-sm opacity-50">Para encerrar, clique aqui ou tecle <strong> ENTER </strong></div>
+        <button disabled={!timerStarted} onClick={() => {
             pause()            
-          }} className=" text-white border-0 flex justify-center items-center p-3 bg-ia-purple-dark rounded-sm hover:opacity-50">PRONTO!</button>
-        </div>
+          }} className=" border-0 flex justify-center items-center p-3 bg-ia-purple-dark rounded-sm hover:opacity-50">PRONTO!</button>
       </div>
     </div>
   );

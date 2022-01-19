@@ -14,7 +14,7 @@ function TeamCard(props){
 
 
   return(
-    <div className={[ props?.team?.isTurn? "  border-4 border-white " : "  " , " w-full max-w-card bg-ia-brown-dark rounded-md min-h-[250px]"]}>
+    <div className={[ props?.team?.isTurn? "  border-2 border-white " : "  " , " w-full max-w-card bg-ia-brown-dark rounded-md min-h-[250px]"]}>
 
       <div className="w-full bg-ia-purple-light p-2 rounded-t-md">
         <h1 className=" text-white text-3xl">{props?.team?.name}</h1>
@@ -24,7 +24,7 @@ function TeamCard(props){
         <div className="w-1/2 ">
           {props?.team?.players.map((v,index) =>
             <div key={index} className={[checkPlayerTurn(v.id, v.teamId)? " border-2 border-ia-purple-dark " : "  "  ,` ${styles.itemPlayer} `]}>
-              <span className={checkPlayerTurn(v.id, v.teamId)? " font-bold " : "  " }>{v.name}</span>
+              <span className={[checkPlayerTurn(v.id, v.teamId)? " font-bold " : "  ", " text-md sm:text-xl text-ia-purple-dark " ]}>{v.name}</span>
             </div>
           )}
           
@@ -32,7 +32,7 @@ function TeamCard(props){
         <div className="w-1/2 pl-5">
           {/* score */}
           <div className="w-full bg-ia-brown-light mt-1 rounded-sm p-2">
-            <h2 className="  text-xl">Pontuação</h2>
+            <h2 className=" text-lg  sm:text-xl">Pontuação</h2>
             {
               props?.team?.scoreInfo?.rounds.length > 0
               ?
@@ -49,7 +49,7 @@ function TeamCard(props){
           {props?.team?.scoreInfo?.rounds.length > 0 
           ?
             <div className="w-full bg-ia-brown-light mt-1 rounded-sm p-2">
-              <h2 className=" text-xl  ml-2">{`Total ${props?.team?.scoreInfo?.total} pts`}</h2> 
+              <h2 className=" text-md sm:text-xl  ml-2">{`Total ${props?.team?.scoreInfo?.total} pts`}</h2> 
             </div>
           :
             <></>

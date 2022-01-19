@@ -7,6 +7,7 @@ import Service from '../../services';
 import { eventEmitter } from '../../services/eventEmitter';
 
 
+
 function Home() {
 
   const service = new Service()
@@ -23,7 +24,6 @@ function Home() {
   async function startRound(){
     try{
       const resp = await service.startRound()
-      console.log('start round', resp);
     }catch(e){
       console.log(e);
     }
@@ -34,6 +34,7 @@ function Home() {
       <Header></Header>
       <TeamsContainer></TeamsContainer>
       <InfoContainer></InfoContainer>
+      
     </div>
   );
 }

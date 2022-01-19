@@ -3,7 +3,7 @@ import styles from "./style.module.css";
 function Header(){
   return(
     <div className={`bg-ia-purple-light h-24 w-full`}>
-      <div className="flex items-center h-full w-full text-white p-4 px-12 m-auto max-w-container">
+      <div className="flex items-center h-full w-full text-white p-4 px-2 sm:px-12  m-auto max-w-container">
         <div className="flex items-center justify-start w-full sm:w-1/2">
           <h1 className="text-4xl">Image e Ação</h1>
         </div>
