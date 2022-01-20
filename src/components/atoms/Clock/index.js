@@ -5,10 +5,17 @@ import { faPlay } from '@fortawesome/free-solid-svg-icons'
 import { eventEmitter } from '../../../services/eventEmitter';
 import { activeChild } from '../../../utils/activeChild';
 import sound from '../../../assets/audio/alarm-ringtone-edited.mp3';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  selectClockStatus,
+  setIsOpenModal,
+  selectActiveChild
+} from '../../../store/mainSlice';
+import { clockStatus } from '../../../utils/clockStatus';
 
 
 
-function Clock(props) {
+function Clock() {
 
   const TIME_LIMIT = 5;
   let timePassed = 0;
@@ -22,22 +29,26 @@ function Clock(props) {
   const [count, setCount] = useState(formatTime(timeLeft))
   const [interval, setIntervalCustom] = useState(null)
 
-  useEffect(() => {
-    timePassed = 0;
-    timeLeft = TIME_LIMIT;
-    timerInterval = null;
-    setTimerStarted(false)
-    setCount(formatTime(TIME_LIMIT))
-    
-  },[props.resetClock]);
+  const clockStatusSelector = useSelector(selectClockStatus);
+  const activeChildSelector = useSelector(selectActiveChild);
+  const dispatch = useDispatch();
+
 
   useEffect(() => {
     
-    if(props.startClock){
-      startTimer()
+    switch (clockStatusSelector) {
+      case clockStatus.START:
+        startTimer()
+        break;
+      case clockStatus.RESET:
+        resetTimer()
+        break;
+      default:
+        console.log('clock status not found');
+        break;
     }
 
-  },[props.startClock]);
+  },[clockStatusSelector]);
 
   useEffect(() => {
     eventEmitter.subscribe("enterPress", () => {
@@ -85,11 +96,18 @@ function Clock(props) {
     );
   }
 
+  function resetTimer(){
+    timePassed = 0;
+    timeLeft = TIME_LIMIT;
+    timerInterval = null;
+    setTimerStarted(false)
+    setCount(formatTime(TIME_LIMIT))
+  }
 
   function pause(){
     clearInterval(interval);
     setTimerStarted(false)
-    props?.openModalFunc()
+    dispatch(setIsOpenModal(true))
     timeLeft = 0
   }
 
@@ -103,7 +121,7 @@ function Clock(props) {
       setCircleDasharray();
       if (timeLeft === 0) {
         clearInterval(interval);
-        props?.openModalFunc()
+        dispatch(setIsOpenModal(true))
         setTimerStarted(false)
         alarm.play()
       }
@@ -124,8 +142,6 @@ function Clock(props) {
     return `${minutes}:${seconds}`;
   }
 
-
-
   function calculateTimeFraction() {
     const rawTimeFraction = timeLeft / TIME_LIMIT;
     return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
@@ -143,7 +159,7 @@ function Clock(props) {
   
   
   return (
-    <div className={[  props?.active === activeChild.CLOCK ? " border-2 border-white " : "  " , " w-full flex  flex-col  bg-ia-purple-med p-3 rounded-md h-full animate-fade"]}>
+    <div className={[  activeChildSelector === activeChild.CLOCK ? " border-2 border-white " : "  " , " w-full flex  flex-col  bg-ia-purple-med p-3 rounded-md h-full animate-fade"]}>
       <div className="text-white text-md ">Cronômetro</div>
       <div className="mt-5 grid justify-center w-full ">
        

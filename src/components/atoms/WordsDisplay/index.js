@@ -1,32 +1,37 @@
 import "./style.css";
 import { useState, useEffect } from 'react';
 import { activeChild } from "../../../utils/activeChild";
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  selectActiveChild,
+  selectWords,
+  step3
+} from '../../../store/mainSlice';
 
 
 function WordsDisplay(props) {
 
-  const skeletonList = Array.from(Array(5).keys()) 
-
   const [formatedList, setFormatedList] = useState([]);
   const [selectWordOnce, setSelectWordOnce] = useState(false);
+  const skeletonList = Array.from(Array(5).keys()); 
+  const words = useSelector(selectWords);
+  const activeChildSelector = useSelector(selectActiveChild);
+  const dispatch = useDispatch();
+  
   
 
   useEffect(() => {
     formatList();
     setSelectWordOnce(false)
-  }, [props.words]);
+  }, [words]);
 
   function formatList(){
-
     let list = []
-
-    if(props?.words)
-      props.words.forEach(({word, value}) => {
+    if(words)
+      words.forEach(({word, value}) => {
         list.push({word, value, selected: false })
       });
-
     setFormatedList(list)
-
   }
 
   function selectWord(index){
@@ -35,7 +40,7 @@ function WordsDisplay(props) {
     list[index].selected = true;
     setFormatedList(list)
 
-    props.startTimer(list[index])
+    dispatch(step3(list[index].value))
     
   }
 
@@ -101,7 +106,7 @@ function WordsDisplay(props) {
 
   return (
     
-    <div className={[ props?.active === activeChild.WORDS_DISPLAY ? " border-2 border-white " : "  " , " w-full flex  flex-col  bg-ia-purple-med p-3 rounded-md h-full"]}>
+    <div className={[ activeChildSelector === activeChild.WORDS_DISPLAY ? " border-2 border-white " : "  " , " w-full flex  flex-col  bg-ia-purple-med p-3 rounded-md h-full"]}>
       <div className="text-white opacity-50 text-sm">
         Clique para selecionar (você só pode selecionar uma palavra).
       </div>
@@ -116,7 +121,7 @@ function WordsDisplay(props) {
               <div className="w-1/2">Valor</div>
             </div>
 
-            {props.words !== null ? renderWordList() : renderSkeletonList()}
+            {words !== null ? renderWordList() : renderSkeletonList()}
          
           </div>
 
