@@ -6,6 +6,7 @@ import App from './App';
 import { store } from './store/store';
 import { Provider } from 'react-redux';
 import Home from './pages/home/home'
+import Config from './pages/configPage';
 
 //https://reactrouter.com/docs/en/v6/getting-started/tutorial
 import {
@@ -14,14 +15,14 @@ import {
   Route,
 } from "react-router-dom";
 
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="expenses" element={<Expenses />} />
-        <Route path="invoices" element={<Invoices />} /> */}
+        <Route path="config" element={<Config />} />
       </Routes>
     </BrowserRouter>
     </Provider>

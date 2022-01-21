@@ -16,6 +16,9 @@ module.exports = {
       maxWidth: {
         'container': '1225px',
         'card': '550px',
+      },
+      boxShadow:{
+        'square-option': '5px 8px 10px #000000a6'
       }
     },
   },

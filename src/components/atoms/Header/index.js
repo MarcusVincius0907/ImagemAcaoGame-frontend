@@ -1,4 +1,5 @@
 import styles from "./style.module.css";
+import {  NavLink } from "react-router-dom";
 
 function Header(){
   return(
@@ -12,7 +13,11 @@ function Header(){
             <div className={`${styles.itemMenu} `}>Como Jogar</div>
             <div className={`${styles.itemMenu} `}>Sobre</div>
             <div className={`${styles.itemMenu} `}>Mais</div>
-            <div className={`${styles.itemMenu} `}>Config</div>
+            <NavLink to="/config"
+              className={({ isActive }) => isActive? " bg-ia-purple-med " : ""}
+            >
+               <div className={`${styles.itemMenu} `}>Config</div>
+            </NavLink>
           </div>
         </div>
       </div>

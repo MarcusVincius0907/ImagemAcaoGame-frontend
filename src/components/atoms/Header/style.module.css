@@ -4,5 +4,5 @@
 }
 
 .itemMenu:hover{
-  background-color: #40273E;
+  @apply bg-ia-purple-med
 }
