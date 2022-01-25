@@ -1,0 +1,20 @@
+
+
+::placeholder{
+  color: #261144 !important;
+}
+
+.input-group-team{
+  
+  .player{
+    @apply bg-ia-brown-light  text-ia-purple-dark text-lg px-3 py-2 outline-none rounded-md w-full;
+  }
+  .team{
+    @apply bg-ia-brown-light  text-ia-purple-dark text-lg px-3 py-2 outline-none rounded-md font-bold w-full;
+  }
+}
+
+.trashBtn{
+  top: 20%;
+  right: 5px;
+}
