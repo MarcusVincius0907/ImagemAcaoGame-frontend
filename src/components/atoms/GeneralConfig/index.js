@@ -1,48 +1,23 @@
 import { useState } from 'react';
 import './style.css'
 
-const _Options = [
-  {
-    
-    title: 'Tempo da mimica',
-    items: [
-      {id: 0, name: '1m', selected: true},
-      {id: 1, name: '2m', selected: false},
-      {id: 2, name: '5m', selected: false},
-    ]
-    
-  },
-
-  {
-    
-    title: 'Quantidade de rodadas',
-    items: [
-      {id: 0, name: '5', selected: true},
-      {id: 1, name: '10', selected: false},
-      {id: 2, name: '15', selected: false},
-    ]
-    
-  },
-
-  {
-    
-    title: 'Quantidade de palavras',
-    items: [
-      {id: 0, name: '3', selected: true},
-      {id: 1, name: '5', selected: false},
-      {id: 2, name: '10', selected: false},
-    ]
-    
-  },
-
-  
-
- 
-]
+import {
+  getGeneralOptions,
+  selectGeneral
+} from '../../../store/configSlice';
+import { useSelector } from 'react-redux';
 
 
 function GeneralConfig(){
-  const [options, setOptions] = useState(_Options)
+  const [options, setOptions] = useState(null)
+  const options = useSelector(selectGeneral)
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getGeneralOptions())
+    setOptions(selectorGeneralOptions)
+  }, []);
+  
 
   function selectOption(indexOp, index){
     

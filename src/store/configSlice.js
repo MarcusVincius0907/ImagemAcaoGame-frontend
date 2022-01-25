@@ -10,6 +10,19 @@ const initialState = {
   teams: null,
 };
 
+export const getGeneralOptions = createAsyncThunk(
+  'main/getGeneralOptions',
+  async (opts) => {
+    try{
+      const resp = await service.getGeneralOptions(opts)
+      console.log("getGeneralOptions",resp);
+      return resp.data.payload
+    }catch(e){
+      console.log(e);
+    }
+  }
+);
+
 
 export const configSlice = createSlice({
   name: 'config',
@@ -26,17 +39,21 @@ export const configSlice = createSlice({
 
   },
 
+  extraReducers: (builder) => {
+    builder
+      .addCase(getGeneralOptions.fulfilled, (state, action) => {
+        state.general = action.payload;
+      })
+      
+  },
+
  
   
 });
 
-export const selectTeams = (state) => state.main.teams;
-export const selectActiveChild = (state) => state.main.activeInfo;
-export const selectTurn = (state) => state.main.turn;
-export const selectWords = (state) => state.main.words;
-export const selectScoreSelected = (state) => state.main.scoreSelected;
-export const selectClockStatus = (state) => state.main.clockStatus;
-export const selectIsOpenModal = (state) => state.main.isOpenModal;
+export const selectTeams = (state) => state.config.teams;
+export const selectGeneral = (state) => state.config.general;
+
 
 export const { setGeneral, setTeams } = configSlice.actions;
 

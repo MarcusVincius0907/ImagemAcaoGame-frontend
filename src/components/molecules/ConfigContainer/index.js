@@ -4,6 +4,7 @@ import Clock from "../../atoms/Clock/index.js";
 import ModalCustom from "../Modal";
 import GeneralConfig from "../../atoms/GeneralConfig";
 import CreateTeam from "../../atoms/CreateTeam";
+import ViewerConfigOpt from "../../atoms/ViewerConfigOpt";
 
 function ConfigContainer() {
   return (
@@ -13,15 +14,24 @@ function ConfigContainer() {
           Configurações
         </div>
 
-        <div className="pl-5">
-          <div className="mt-5 w-1/2 ">
-            <GeneralConfig> </GeneralConfig>
+        <div className="w-full flex p-5 items-stretch ">
+
+          <div className=" w-1/2">
+            <div className="">
+              <GeneralConfig> </GeneralConfig>
+            </div>
+
+            <div className="mt-5  ">
+              <CreateTeam> </CreateTeam>
+            </div>
           </div>
 
-          <div className="mt-5 w-1/2 ">
-            <CreateTeam> </CreateTeam>
+          <div className="ml-3 w-1/2 ">
+            <ViewerConfigOpt></ViewerConfigOpt>
           </div>
         </div>
+
+
       </div>
     </div>
   );

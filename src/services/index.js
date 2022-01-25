@@ -7,7 +7,10 @@ export default class Service {
     this.api = axios.create({
       baseURL: 'http://localhost:3000/api'
     })
+    
   }
+
+  //#region home
 
   async startRound(){
     return this.api.get('/round');
@@ -36,4 +39,13 @@ export default class Service {
   async getWords(){
     return this.api.get('/words');
   }
+
+  //#endregion
+
+  
+
+  getGeneralOptions(opts){
+    //return this.api.get('/turn');
+  }
+
 }
