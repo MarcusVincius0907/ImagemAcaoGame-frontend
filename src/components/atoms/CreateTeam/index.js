@@ -1,13 +1,29 @@
 import './style.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import {
+  setTeams
+} from '../../../store/configSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { ToastContainer, toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function CreateTeam(){
 
   const [playersList, setPlayersList] = useState([
     { name: '', showTrash: false}
   ])
+  const [teamName, setTeamName] = useState('')
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    
+  }, []);
+  
 
   const addPlayer = () => {
     let players = [...playersList];
@@ -41,6 +57,22 @@ export default function CreateTeam(){
     }
   }
 
+  const confirmTeam = () => {
+
+    if(teamName && playersList[0].name){
+      
+      const team = {
+        name: teamName,
+        players: playersList
+      }
+
+      dispatch(setTeams(team))
+    }else{
+      toast.warn('Precisa preencher o nome do time e ao menos o nome de um jogador')
+    }
+
+  }
+
   return(
     <div className=" bg-ia-brown-dark w-full h-full text-ia-purple-dark p-5 rounded-md">
       <div className="pb-5">
@@ -48,13 +80,15 @@ export default function CreateTeam(){
           Criação dos times
         </div>
         <div className=" text-white opacity-50 text-sm">
-          Crie o primeiro time e confira ao lado. Você pode adicionar até 10 jogadores.
+          Crie o primeiro time, confira ao lado e confirme. Depois crie o outro time. Você pode adicionar até 10 jogadores.
         </div>
       </div>
 
       <div className="grid grid-cols-3 grid-rows-4 grid-flow-col">
         <div className="m-1 input-group-team ">
-          <input className="team" type="text" placeholder="Nome do Time"></input>
+          <input value={teamName} onChange={(e) => {
+              setTeamName(e.target.value)
+            }} className="team" type="text" placeholder="Nome do Time"></input>
         </div>
         {playersList.map((v,i) => 
           <div key={i} onMouseEnter={() => changeTrashBtnFlag(v,i, 'enter') } onMouseLeave={() => changeTrashBtnFlag(v,i, 'leave')} className="m-1 relative left-0  input-group-team">
@@ -77,10 +111,11 @@ export default function CreateTeam(){
 
       <div className="pt-5">
         <div className="">
-          <button onClick={() => console.log('hello')} className=" text-white border-0 flex justify-center items-center p-3 bg-ia-purple-dark rounded-sm hover:opacity-50">CONFIRMAR</button>
+          <button onClick={() => confirmTeam()} className=" text-white border-0 flex justify-center items-center p-3 bg-ia-purple-dark rounded-sm hover:opacity-50">CONFIRMAR</button>
         </div>
       </div>
 
+      <ToastContainer />
     </div>
   )
 }

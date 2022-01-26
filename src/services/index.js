@@ -44,8 +44,8 @@ export default class Service {
 
   
 
-  getGeneralOptions(opts){
-    //return this.api.get('/turn');
+  getGeneralOptions(){
+    return this.api.get('/config');
   }
 
 }

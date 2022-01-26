@@ -10,8 +10,11 @@ function ConfigContainer() {
   return (
     <div className="w-full max-w-container px-2 sm:px-12  m-auto mt-10 ">
       <div className=" bg-ia-purple-light h-full min-h-[900px] rounded-md">
-        <div className="bg-ia-purple-med text-white text-3xl p-2 rounded-t-md  ">
-          Configurações
+        <div className="bg-ia-purple-med text-white text-3xl p-4 rounded-t-md flex justify-between ">
+          <div className="flex items-center">
+            Configurações
+          </div>
+          
         </div>
 
         <div className="w-full flex p-5 items-stretch ">
@@ -21,7 +24,7 @@ function ConfigContainer() {
               <GeneralConfig> </GeneralConfig>
             </div>
 
-            <div className="mt-5  ">
+            <div className="mt-3  ">
               <CreateTeam> </CreateTeam>
             </div>
           </div>
