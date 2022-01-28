@@ -1,10 +1,10 @@
 const STORAGE_TYPES = {
-  CONFIG = 'CONFIG'
+  CONFIG : 'CONFIG'
 }
 
 const saveConfig = (config) => {
   try{
-    localStorage[STORAGE_TYPES.CONFIG] = config;
+    localStorage[STORAGE_TYPES.CONFIG] = JSON.stringify(config);
   }catch(e){
     console.log(e);
   }
@@ -12,7 +12,7 @@ const saveConfig = (config) => {
 
 const getConfig = () => {
   try{
-    return localStorage[STORAGE_TYPES.CONFIG];
+    return JSON.parse(localStorage[STORAGE_TYPES.CONFIG]??"");
   }catch(e){
     console.log(e);
   }

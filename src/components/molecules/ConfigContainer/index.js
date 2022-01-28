@@ -5,8 +5,18 @@ import ModalCustom from "../Modal";
 import GeneralConfig from "../../atoms/GeneralConfig";
 import CreateTeam from "../../atoms/CreateTeam";
 import ViewerConfigOpt from "../../atoms/ViewerConfigOpt";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getTeams } from '../../../store/configSlice'
 
 function ConfigContainer() {
+
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    dispatch(getTeams())
+  }, []);
+  
   return (
     <div className="w-full max-w-container px-2 sm:px-12  m-auto mt-10 ">
       <div className=" bg-ia-purple-light h-full min-h-[900px] rounded-md">

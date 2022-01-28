@@ -32,6 +32,10 @@ export default class Service {
     return this.api.get('/team');
   }
 
+  async updateTeams(teams){
+    return this.api.put('/team', {teams});
+  }
+
   async getScoreboard(){
     return this.api.get('/scoreboard');
   }

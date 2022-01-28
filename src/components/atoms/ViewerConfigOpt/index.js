@@ -5,6 +5,7 @@ import {
   selectTeams,
   setSelectedTeam,
   selectedTeam,
+  saveConfig
 } from "../../../store/configSlice";
 import { useDispatch, useSelector } from "react-redux";
 import localStorageHandler from "../../../services/localStorageHandler";
@@ -15,8 +16,8 @@ export default function ViewerConfigOpt() {
   const selected = useSelector(selectedTeam)
   const dispatch = useDispatch();
 
-  const saveConfig = () => {
-    localStorageHandler.saveConfig()
+  const saveConfigBtn = () => {
+    dispatch(saveConfig())
   }
 
   const editTeam = (team) => {
@@ -126,7 +127,7 @@ export default function ViewerConfigOpt() {
       </div>
       <div className="p-3 w-full mt-5">
         <button
-          onClick={() => console.log("hello")}
+          onClick={() => saveConfigBtn()}
           className=" w-full text-white border-0 flex justify-center items-center p-3 bg-ia-purple-dark rounded-sm hover:opacity-50"
         >
           SALVAR

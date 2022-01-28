@@ -73,14 +73,15 @@ export default function CreateTeam(){
     if(teamName && playersList[0].name){
 
 
-      const team = {
-        id: ramdomId(),
-        name: teamName,
-        players: playersList
-      }
-
+      
       if(editTeam){
 
+        const team = {
+          ...editTeam,
+          name: teamName,
+          players: playersList
+        }
+        
         let oldTeam, indexOld, newTeams = null;
 
         teams?.forEach((v,i) => {
@@ -101,10 +102,10 @@ export default function CreateTeam(){
 
         dispatch(setTeams(newTeams))
 
-      }else if(teams.length < 2){
+      }/* else if(teams.length < 2){
         let newTeams = [...teams, team]
         dispatch(setTeams(newTeams))
-      }
+      } */
       
       setTeamName('')
       setPlayersList([{ name: '', showTrash: false}])

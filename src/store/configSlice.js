@@ -4,30 +4,14 @@ import { activeChild } from '../utils/activeChild';
 import { clockStatus } from '../utils/clockStatus';
 import Copy from '../utils/copy';
 import ramdomId from '../utils/generateRandomId';
+import localStorageHandler from '../services/localStorageHandler'
 
 const service = new Service()
 
 const initialState = {
   general: null,
   generalSum: null,
-  teams: [
-    {
-      id:ramdomId(),
-      name: 'Time 1',
-      players: [
-        { name: 'Jogador 1', showTrash: false},
-        { name: 'Jogador 2', showTrash: true},
-      ]
-    },
-    {
-      id:ramdomId(),
-      name: 'Time 2',
-      players: [
-        { name: 'Jogador 1', showTrash: false},
-        { name: 'Jogador 2', showTrash: true},
-      ]
-    }
-  ],
+  teams: [],
   selectedTeamForEditting: null,
 };
 
@@ -35,8 +19,26 @@ export const getGeneralOptions = createAsyncThunk(
   'main/getGeneralOptions',
   async () => {
     try{
+
+      
       const resp = await service.getGeneralOptions()
       console.log("getGeneralOptions",resp);
+
+      let configFromStorage = localStorageHandler.getConfig();
+      if(configFromStorage) return formatBackGeneral(configFromStorage, resp.data.payload);
+
+      return resp.data.payload
+    }catch(e){
+      console.log(e);
+    }
+  }
+);
+
+export const getTeams = createAsyncThunk(
+  'main/getTeams',
+  async () => {
+    try{
+      const resp = await service.getTeams()
       return resp.data.payload
     }catch(e){
       console.log(e);
@@ -56,6 +58,19 @@ const formatGeneral = (general) => {
       sum.wordsQtd = v.items?.filter(v => v.selected)[0].value
   });
   return sum
+}
+
+const formatBackGeneral = (generalSum, general) => {
+  general?.forEach((v,i,arr) => {
+    if(v.value === 'time')
+      arr[i].items?.forEach((v,i,arr) => v.value === generalSum.time? arr[i].selected = true : arr[i].selected = false ); 
+    if(v.value === 'roundQtd')
+      arr[i].items?.forEach((v,i,arr) => v.value === generalSum.roundQtd? arr[i].selected = true : arr[i].selected = false );
+    if(v.value === 'wordsQtd')
+      arr[i].items?.forEach((v,i,arr) => v.value === generalSum.wordsQtd? arr[i].selected = true : arr[i].selected = false );
+  });
+  console.log('general', general);
+  return general
 }
 
 export const configSlice = createSlice({
@@ -84,12 +99,31 @@ export const configSlice = createSlice({
         state.general = action.payload;
         state.generalSum = formatGeneral(action.payload)
       })
+      .addCase(getTeams.fulfilled, (state, action) => {
+        state.teams = action.payload;
+      })
       
   },
 
  
   
 });
+
+export const saveConfig = () => async(dispatch, getState) => {
+  console.log('saving...');
+  const generalSum = selectGeneralSum(getState());
+  localStorageHandler.saveConfig(generalSum);
+  
+  const teams = selectTeams(getState());
+  try{
+    const resp = await service.updateTeams(teams)
+    console.log('resp teams',resp);
+  }catch(e){
+    console.log(e);
+  }
+  
+
+};
 
 
 export const selectedOption = (indexOp, index) => (dispatch, getState) => {
