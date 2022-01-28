@@ -12,12 +12,14 @@ import {
   selectActiveChild
 } from '../../../store/mainSlice';
 import { clockStatus } from '../../../utils/clockStatus';
+import localStorageHandler from '../../../services/localStorageHandler';
 
 
 
 function Clock() {
 
-  const TIME_LIMIT = 5;
+  const TIME_LIMIT = ((localStorageHandler.getConfig())? (localStorageHandler.getConfig()).time : null ?? 1) * 60;
+  console.log('TIME_LIMIT',TIME_LIMIT);
   let timePassed = 0;
   let timeLeft = TIME_LIMIT;
   let timerInterval = null;
@@ -47,6 +49,8 @@ function Clock() {
         console.log('clock status not found');
         break;
     }
+
+    
 
   },[clockStatusSelector]);
 

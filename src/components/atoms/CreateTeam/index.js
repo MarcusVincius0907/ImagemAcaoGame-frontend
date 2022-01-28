@@ -158,7 +158,7 @@ export default function CreateTeam(){
         </div>
       </div>
 
-      <ToastContainer />
+      
     </div>
   )
 }

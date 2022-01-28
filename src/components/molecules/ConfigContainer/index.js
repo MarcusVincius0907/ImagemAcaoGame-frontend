@@ -8,6 +8,7 @@ import ViewerConfigOpt from "../../atoms/ViewerConfigOpt";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getTeams } from '../../../store/configSlice'
+import { ToastContainer } from "react-toastify";
 
 function ConfigContainer() {
 
@@ -46,6 +47,7 @@ function ConfigContainer() {
 
 
       </div>
+      <ToastContainer />
     </div>
   );
 }

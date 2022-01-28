@@ -1,5 +1,6 @@
 
 import axios from 'axios';
+import localStorageHandler from './localStorageHandler';
 
 export default class Service {
 
@@ -13,11 +14,12 @@ export default class Service {
   //#region home
 
   async startRound(){
-    return this.api.get('/round');
+    const config = localStorageHandler.getConfig()
+    return this.api.post('/round-start', {config});
   }
 
   async nextRound(score){
-    return this.api.post('/round', score);
+    return this.api.post('/round-next', score);
   }
 
   async getTurn(){
@@ -42,6 +44,10 @@ export default class Service {
 
   async getWords(){
     return this.api.get('/words');
+  }
+
+  async resetGame(){
+    return this.api.get('/reset');
   }
 
   //#endregion

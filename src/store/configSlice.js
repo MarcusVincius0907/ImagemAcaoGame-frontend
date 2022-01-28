@@ -5,6 +5,7 @@ import { clockStatus } from '../utils/clockStatus';
 import Copy from '../utils/copy';
 import ramdomId from '../utils/generateRandomId';
 import localStorageHandler from '../services/localStorageHandler'
+import { toast } from 'react-toastify';
 
 const service = new Service()
 
@@ -120,8 +121,11 @@ export const saveConfig = () => async(dispatch, getState) => {
     console.log('resp teams',resp);
   }catch(e){
     console.log(e);
+    toast.error('Infelizmente não foi possível realizar essa ação.')
+    return;
   }
   
+  toast.success('Configurações salvas com sucesso')
 
 };
 
