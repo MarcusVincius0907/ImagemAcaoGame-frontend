@@ -5,29 +5,23 @@ import InfoContainer from '../../components/molecules/InfoContainer';
 import { useState, useEffect } from 'react';
 import Service from '../../services';
 import { eventEmitter } from '../../services/eventEmitter';
+import { useDispatch } from 'react-redux';
+import { start } from  '../../store/mainSlice'
 
 
 
 function Home() {
 
-  const service = new Service()
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    startRound();
+    dispatch(start())
     window.addEventListener('keydown', (ev) => {
       if(ev.keyCode === 13){
         eventEmitter.dispatch("enterPress")
       }
     })
   },[]);
-
-  async function startRound(){
-    try{
-      const resp = await service.startRound()
-    }catch(e){
-      console.log(e);
-    }
-  }
 
   return (
     <div className={` bg-ia-purple-dark h-full w-full overflow-auto pb-5`}>

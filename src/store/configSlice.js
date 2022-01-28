@@ -23,7 +23,6 @@ export const getGeneralOptions = createAsyncThunk(
 
       
       const resp = await service.getGeneralOptions()
-      console.log("getGeneralOptions",resp);
 
       let configFromStorage = localStorageHandler.getConfig();
       if(configFromStorage) return formatBackGeneral(configFromStorage, resp.data.payload);
@@ -70,7 +69,6 @@ const formatBackGeneral = (generalSum, general) => {
     if(v.value === 'wordsQtd')
       arr[i].items?.forEach((v,i,arr) => v.value === generalSum.wordsQtd? arr[i].selected = true : arr[i].selected = false );
   });
-  console.log('general', general);
   return general
 }
 
@@ -111,14 +109,12 @@ export const configSlice = createSlice({
 });
 
 export const saveConfig = () => async(dispatch, getState) => {
-  console.log('saving...');
   const generalSum = selectGeneralSum(getState());
   localStorageHandler.saveConfig(generalSum);
   
   const teams = selectTeams(getState());
   try{
     const resp = await service.updateTeams(teams)
-    console.log('resp teams',resp);
   }catch(e){
     console.log(e);
     toast.error('Infelizmente não foi possível realizar essa ação.')

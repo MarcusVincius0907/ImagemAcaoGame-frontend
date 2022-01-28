@@ -17,12 +17,6 @@ function TeamsContainer(){
 
   useEffect(() => {
     
-    dispatch(getTeams())
-
-    eventEmitter.subscribe("refreshTeams", (e) => {
-      dispatch(getTeams())
-    })
-    
   },[]);
 
 

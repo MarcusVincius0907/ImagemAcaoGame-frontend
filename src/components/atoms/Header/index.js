@@ -1,9 +1,11 @@
 import styles from "./style.module.css";
 import {  NavLink } from "react-router-dom";
 import Service from "../../../services";
+import { useDispatch } from "react-redux";
+import { reset } from  '../../../store/mainSlice'
 
 function Header(){
-  const service = new Service()
+  const dispatch = useDispatch()
   return(
     <div className={`bg-ia-purple-light h-24 w-full`}>
       <div className="flex items-center h-full w-full text-white p-4 px-2 sm:px-12  m-auto max-w-container">
@@ -18,7 +20,7 @@ function Header(){
                <div className={`${styles.itemMenu} `}>Jogar</div>
             </NavLink>
             <div className={`${styles.itemMenu} `}>Como Jogar</div>
-            <div onClick={async() => await service.resetGame()} className={`${styles.itemMenu} `}>Reset</div>
+            <div onClick={() => dispatch(reset())} className={`${styles.itemMenu} `}>Reset</div>
             <NavLink to="/config"
               className={({ isActive }) => isActive? " bg-ia-purple-med " : ""}
             >

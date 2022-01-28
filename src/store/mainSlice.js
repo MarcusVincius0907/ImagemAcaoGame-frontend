@@ -51,6 +51,18 @@ export const getTurn = createAsyncThunk(
   }
 );
 
+export const startRound = createAsyncThunk(
+  'main/startRound',
+  async () => {
+    try{
+      const resp = await service.startRound()
+      return resp.data.payload
+    }catch(e){
+      console.log(e);
+    }
+  }
+);
+
 export const nextRound = createAsyncThunk(
   'main/nextRound',
   async (score) => {
@@ -63,9 +75,31 @@ export const nextRound = createAsyncThunk(
   }
 );
 
+export const resetGame = createAsyncThunk(
+  'main/reset',
+  async () => {
+    try{
+      const resp = await service.resetGame()
+      return resp.data.payload
+    }catch(e){
+      console.log(e);
+    }
+  }
+);
+
+export const start = () => async(dispatch) => {
+  await dispatch(startRound())
+  await dispatch(getTeams())
+  await dispatch(getTurn())
+};
+
+export const reset = () => async(dispatch) => {
+  await dispatch(resetGame())
+  await dispatch(start())
+};
 
 export const step1 = () => (dispatch) => {
-  dispatch(getTurn())
+  //dispatch(getTurn())
 };
 
 export const step2 = () => (dispatch) => {
@@ -135,6 +169,7 @@ export const mainSlice = createSlice({
       .addCase(getTurn.fulfilled, (state, action) => {
         state.turn = action.payload;
       });
+      
   },
   
 });

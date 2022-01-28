@@ -19,7 +19,6 @@ import localStorageHandler from '../../../services/localStorageHandler';
 function Clock() {
 
   const TIME_LIMIT = ((localStorageHandler.getConfig())? (localStorageHandler.getConfig()).time : null ?? 1) * 60;
-  console.log('TIME_LIMIT',TIME_LIMIT);
   let timePassed = 0;
   let timeLeft = TIME_LIMIT;
   let timerInterval = null;
