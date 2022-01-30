@@ -3,16 +3,17 @@ import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay } from '@fortawesome/free-solid-svg-icons'
 import { eventEmitter } from '../../../services/eventEmitter';
-import { activeChild } from '../../../utils/activeChild';
+import { activeChild } from '../../../types/activeChild';
 import sound from '../../../assets/audio/alarm-ringtone-edited.mp3';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   selectClockStatus,
-  setIsOpenModal,
-  selectActiveChild
+  selectActiveChild,
+  setModal
 } from '../../../store/mainSlice';
-import { clockStatus } from '../../../utils/clockStatus';
+import { clockStatus } from '../../../types/clockStatus';
 import localStorageHandler from '../../../services/localStorageHandler';
+import { modalSection } from '../../../types/modalSection';
 
 
 
@@ -110,7 +111,7 @@ function Clock() {
   function pause(){
     clearInterval(interval);
     setTimerStarted(false)
-    dispatch(setIsOpenModal(true))
+    dispatch(setModal(true, modalSection.FINISHED_ROUND))
     timeLeft = 0
   }
 
@@ -124,7 +125,7 @@ function Clock() {
       setCircleDasharray();
       if (timeLeft === 0) {
         clearInterval(interval);
-        dispatch(setIsOpenModal(true))
+        dispatch(setModal(true, modalSection.FINISHED_ROUND))
         setTimerStarted(false)
         alarm.play()
       }

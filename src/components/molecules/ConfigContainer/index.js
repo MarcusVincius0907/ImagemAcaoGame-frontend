@@ -20,7 +20,7 @@ function ConfigContainer() {
   
   return (
     <div className="w-full max-w-container px-2 sm:px-12  m-auto mt-10 ">
-      <div className=" bg-ia-purple-light h-full min-h-[900px] rounded-md">
+      <div className=" bg-ia-purple-light h-full rounded-md">
         <div className="bg-ia-purple-med text-white text-3xl p-4 rounded-t-md flex justify-between ">
           <div className="flex items-center">
             Configurações

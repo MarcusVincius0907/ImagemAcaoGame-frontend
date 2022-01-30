@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import Service from '../services';
-import { activeChild } from '../utils/activeChild';
-import { clockStatus } from '../utils/clockStatus';
+import { activeChild } from '../types/activeChild';
+import { clockStatus } from '../types/clockStatus';
 import Copy from '../utils/copy';
 import ramdomId from '../utils/generateRandomId';
 import localStorageHandler from '../services/localStorageHandler'

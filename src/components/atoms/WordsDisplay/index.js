@@ -1,6 +1,6 @@
 import "./style.css";
 import { useState, useEffect } from 'react';
-import { activeChild } from "../../../utils/activeChild";
+import { activeChild } from "../../../types/activeChild";
 import { useSelector, useDispatch } from 'react-redux';
 import {
   selectActiveChild,

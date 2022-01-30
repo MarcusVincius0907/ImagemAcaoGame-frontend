@@ -1,7 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import Service from '../services';
-import { activeChild } from '../utils/activeChild';
-import { clockStatus } from '../utils/clockStatus';
+import { activeChild } from '../types/activeChild';
+import { modalSection } from '../types/modalSection';
+import { clockStatus } from '../types/clockStatus';
+import { useDispatch } from 'react-redux';
 
 const service = new Service()
 
@@ -11,8 +13,10 @@ const initialState = {
   words: null,
   scoreSelected: 0,
   isOpenModal: false,
+  modalType: modalSection.FINISHED_ROUND,
   activeInfo: activeChild.ROUND,
   clockStatus: clockStatus.NONE,
+  winner: null,
 };
 
 export const getTeams = createAsyncThunk(
@@ -87,6 +91,15 @@ export const resetGame = createAsyncThunk(
   }
 );
 
+export const setModal = (flag, modalSection) => async(dispatch, getState) => {
+  dispatch(setIsOpenModal(flag));
+  dispatch(setModalSection(modalSection))
+};
+
+export const setWinner = () => async(dispatch) => {
+
+};
+
 export const start = () => async(dispatch) => {
   await dispatch(startRound())
   await dispatch(getTeams())
@@ -123,7 +136,7 @@ export const finishSteps = (isRightAnswer) => (dispatch, getState) => {
     dispatch(nextRound(0))
   }
 
-  dispatch(setIsOpenModal(false))
+  dispatch(setModal(false, modalSection.FINISHED_ROUND))
   dispatch(setWords(null))
   dispatch(getTurn())
   dispatch(getTeams())
@@ -153,6 +166,10 @@ export const mainSlice = createSlice({
       state.isOpenModal = action.payload;
     },
 
+    setModalSection: (state, action) => {
+      state.modalType = action.payload;
+    },
+
     setWords: (state, action) => {
       state.words = action.payload;
     },
@@ -168,6 +185,14 @@ export const mainSlice = createSlice({
       })
       .addCase(getTurn.fulfilled, (state, action) => {
         state.turn = action.payload;
+      })
+      .addCase(nextRound.fulfilled, (state, action) => {
+        if(action.payload){
+          console.log('finish game');
+          state.isOpenModal = true;
+          state.modalType = modalSection.FINISHED_GAME
+          state.winner = action.payload
+        }
       });
       
   },
@@ -181,8 +206,10 @@ export const selectWords = (state) => state.main.words;
 export const selectScoreSelected = (state) => state.main.scoreSelected;
 export const selectClockStatus = (state) => state.main.clockStatus;
 export const selectIsOpenModal = (state) => state.main.isOpenModal;
+export const selectModalType = (state) => state.main.modalType;
+export const selectWinner = (state) => state.main.winner;
 
-export const { setActiveChild, setScoreSelected, setClockStatus, setIsOpenModal, setWords } = mainSlice.actions;
+export const { setActiveChild, setScoreSelected, setClockStatus, setIsOpenModal, setModalSection, setWords } = mainSlice.actions;
 
 export default mainSlice.reducer;
 

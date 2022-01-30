@@ -19,7 +19,7 @@ function Header(){
             >
                <div className={`${styles.itemMenu} `}>Jogar</div>
             </NavLink>
-            <div className={`${styles.itemMenu} `}>Como Jogar</div>
+            {/* <div className={`${styles.itemMenu} `}>Como Jogar</div> */}
             <div onClick={() => dispatch(reset())} className={`${styles.itemMenu} `}>Reset</div>
             <NavLink to="/config"
               className={({ isActive }) => isActive? " bg-ia-purple-med " : ""}
