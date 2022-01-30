@@ -5,7 +5,6 @@ import Service from "../../../services";
 function TeamCard(props){
 
  useEffect(() => {
-  
  })
 
  const checkPlayerTurn = (idPlayer, idTeam) => {

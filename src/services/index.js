@@ -2,12 +2,14 @@
 import axios from 'axios';
 import localStorageHandler from './localStorageHandler';
 
+
 export default class Service {
 
   constructor(){
     this.api = axios.create({
-      baseURL: 'http://localhost:3000/api'
+      baseURL: process.env.REACT_APP_API_URL
     })
+    
     
   }
 
