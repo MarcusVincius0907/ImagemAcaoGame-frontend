@@ -26,7 +26,7 @@ export default function ViewerConfigOpt() {
 
   const fakeTeams = () => (
     <>
-      <div className="m-3 w-full  cursor-pointer opacity-70">
+      <div className="md:m-3 mt-3 w-full  cursor-pointer opacity-70">
         <div className=" bg-ia-brown-light w-full rounded-md">
           <div className=" bg-ia-purple-dark text-white text-xl w-full p-2 rounded-t-md ">
             Time
@@ -48,7 +48,7 @@ export default function ViewerConfigOpt() {
         </div>
       </div>
 
-      <div className="m-3 w-full  cursor-pointer opacity-70">
+      <div className="md:m-3 mt-3 w-full  cursor-pointer opacity-70">
         <div className=" bg-ia-brown-light w-full rounded-md">
           <div className=" bg-ia-purple-dark text-white text-xl w-full p-2 rounded-t-md ">
             Time
@@ -78,7 +78,7 @@ export default function ViewerConfigOpt() {
         <div
           key={i}
           onClick={() => editTeam(v)}
-          className={[ " m-3 w-full  cursor-pointer hover:opacity-70 "]}
+          className={[ "md:m-3 mt-3 w-full  cursor-pointer hover:opacity-70 "]}
         >
           <div className={[selected?.id === v.id? " border-2 border-white " : "  "," bg-ia-brown-light w-full rounded-md"]}>
             <div
@@ -121,7 +121,7 @@ export default function ViewerConfigOpt() {
       <div className="flex flex-col w-full">
         <div className="mx-3">Para editar um time, basta clicar sobre ele.</div>
 
-        <div className="flex w-full">
+        <div className="flex flex-col md:flex-row w-full">
           {teams?.length > 0? renderTeams() : fakeTeams() }
         </div>
       </div>

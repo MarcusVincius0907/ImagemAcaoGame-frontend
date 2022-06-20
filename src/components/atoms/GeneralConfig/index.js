@@ -31,7 +31,7 @@ function GeneralConfig(){
         Configurações Gerais
       </div>
 
-      <div className="grid grid-cols-2 grid-rows-2">
+      <div className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-2">
         {options?.map((op,indexOp) => 
           <div key={indexOp} className="pb-5">
             <div className=" text-sm  mb-2">

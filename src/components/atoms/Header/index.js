@@ -3,6 +3,7 @@ import {  NavLink } from "react-router-dom";
 import Service from "../../../services";
 import { useDispatch } from "react-redux";
 import { reset } from  '../../../store/mainSlice'
+import MenuMobile from "../MenuMobile";
 
 function Header(){
   const dispatch = useDispatch()
@@ -27,6 +28,9 @@ function Header(){
                <div className={`${styles.itemMenu} `}>Config</div>
             </NavLink>
           </div>
+        </div>
+        <div className="md:hidden w-1/2 flex justify-end">
+          <MenuMobile></MenuMobile>
         </div>
       </div>
     </div>

@@ -70,9 +70,7 @@ export default function CreateTeam(){
 
   const confirmTeam = () => {
 
-    if(teamName && playersList[0].name){
-
-
+    if(teamName && playersList.every(player => player.name)){
       
       if(editTeam){
 
@@ -127,7 +125,7 @@ export default function CreateTeam(){
         </div>
       </div>
 
-      <div className="grid grid-cols-3 grid-rows-4 grid-flow-col">
+      <div className="flex flex-col md:grid md:grid-cols-3 md:grid-rows-4 md:grid-flow-col">
         <div className="m-1 input-group-team ">
           <input value={teamName} onChange={(e) => {
               setTeamName(e.target.value)

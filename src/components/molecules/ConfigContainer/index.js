@@ -21,16 +21,16 @@ function ConfigContainer() {
   return (
     <div className="w-full max-w-container px-2 sm:px-12  m-auto mt-10 ">
       <div className=" bg-ia-purple-light h-full rounded-md">
-        <div className="bg-ia-purple-med text-white text-3xl p-4 rounded-t-md flex justify-between ">
+        <div className="bg-ia-purple-med text-white text-xl md:text-3xl p-4 rounded-t-md flex justify-between ">
           <div className="flex items-center">
             Configurações
           </div>
           
         </div>
 
-        <div className="w-full flex p-5 items-stretch ">
+        <div className="w-full flex flex-col md:flex-row md:p-5 items-stretch ">
 
-          <div className=" w-1/2">
+          <div className="w-full md:w-1/2">
             <div className="">
               <GeneralConfig> </GeneralConfig>
             </div>
@@ -40,7 +40,7 @@ function ConfigContainer() {
             </div>
           </div>
 
-          <div className="ml-3 w-1/2 ">
+          <div className="w-full mt-3 md:mt-0 md:ml-3 md:w-1/2 ">
             <ViewerConfigOpt></ViewerConfigOpt>
           </div>
         </div>
