@@ -146,7 +146,7 @@ function ModalCustom(props) {
                         </h3>
                         <div className="mt-2">
                           <p className="text-sm text-gray-500">
-                            {winner.tie === true? `Empatou! Jogue novamente uma revanche.` : `O time que ganhou foi o ${winner.teamName} com ${winner.score} pontos a mais`}
+                            {winner.tie === true? `Empatou! Jogue novamente uma revanche.` : `O time que ganhou foi o ${winner.teamName} com ${winner.score} pontos.`}
                             
                           </p>
                         </div>
